@@ -10,7 +10,9 @@ public class Client extends JFrame implements Runnable {
     public Client() {
         super("Client");
         //FRAME Configuration
-        setPreferredSize(new Dimension(1400, 900));
+        //setPreferredSize(new Dimension(1400, 900));
+        setSize(700, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
         //COMPONENT Configuration

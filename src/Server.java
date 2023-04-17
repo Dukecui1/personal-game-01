@@ -8,7 +8,9 @@ public class Server extends JFrame implements Runnable {
     public Server() {
         super("Server");
         //FRAME configuration
-        setPreferredSize(new Dimension(400, 300));
+        //setPreferredSize(new Dimension(400, 300));
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
         //COMPONENT configuration
