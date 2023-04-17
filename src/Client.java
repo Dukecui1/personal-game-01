@@ -1,4 +1,11 @@
 package src;
 
-public class Client {
+import javax.swing.*;
+
+public class Client extends JFrame implements Runnable {
+
+    @Override
+    public void run() {
+
+    }
 }
