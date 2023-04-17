@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Date;
 
 public class Server extends JFrame implements Runnable {
     //Connection config constant
@@ -11,23 +12,29 @@ public class Server extends JFrame implements Runnable {
     //JFrame config constant
     private final int WIDTH = 400;
     private final int HEIGHT = 300;
+    //Component
+    private JTextArea ta;
 
 
     public Server() {
         super("Server");
-        //FRAME configuration
-        //setPreferredSize(new Dimension(400, 300));
-        setSize(WIDTH, HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-        setResizable(false);
         //COMPONENT configuration
         createJText();
+        //FRAME configuration
+        setSize(WIDTH, HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setVisible(true);
+        setResizable(false);
+        //Server thread
+        Thread t = new Thread(this);
+        t.start();
     }
 
     private void createJText() {
-        JTextArea ta = new JTextArea();
+        ta = new JTextArea();
         this.add(ta);
+        this.setSize(WIDTH,HEIGHT);
     }
 
     @Override
@@ -37,5 +44,7 @@ public class Server extends JFrame implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        ta.append("ChatServer started at "
+                + new Date() + '\n');
     }
 }
