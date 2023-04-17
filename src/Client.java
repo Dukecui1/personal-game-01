@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class Client extends JFrame implements Runnable {
 
     public Client() {
-        super("9053 final project");
+        super("Client");
         //FRAME Configuration
         setPreferredSize(new Dimension(1400, 900));
         setVisible(true);
@@ -27,7 +27,8 @@ public class Client extends JFrame implements Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            //TODO
+
         }
     }
 
