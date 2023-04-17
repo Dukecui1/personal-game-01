@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Client extends JFrame implements Runnable {
     //JFrame config constant
@@ -12,14 +14,13 @@ public class Client extends JFrame implements Runnable {
 
     public Client() {
         super("Client");
+        //COMPONENT Configuration
+        createMenu();
         //FRAME Configuration
-        //setPreferredSize(new Dimension(1400, 900));
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
-        //COMPONENT Configuration
-        createMenu();
     }
 
     private void createMenu() {
@@ -27,19 +28,28 @@ public class Client extends JFrame implements Runnable {
         JMenu actionMenu = new JMenu("Action");
         JMenuItem connectItem = new JMenuItem("Connect");
         connectItem.addActionListener(new OpenConnectionListener());
+        actionMenu.add(connectItem);
+        jMenuBar.add(actionMenu);
+        this.setJMenuBar(jMenuBar);
     }
     class OpenConnectionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO
+            try {
+                Socket socket = new Socket("localhost", 9898);
+                System.out.println("connected");
+                //TODO receive client number
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
         }
     }
 
     @Override
     public void run() {
-
+        //TODO receive and send message, add sleep() to avoid over polling
     }
 
 }
