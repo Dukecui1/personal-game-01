@@ -11,6 +11,8 @@ public class Client extends JFrame implements Runnable {
     //JFrame config constant
     private final int WIDTH = 900;
     private final int HEIGHT = 950;
+    //player's data
+    private Data data;
 
     public Client() {
         super("Client");
@@ -45,6 +47,8 @@ public class Client extends JFrame implements Runnable {
             try {
                 Socket socket = new Socket("localhost", 9898);
                 System.out.println("connected");
+                data = new Data();
+
                 //TODO receive client number
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
