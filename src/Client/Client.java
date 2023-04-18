@@ -1,4 +1,4 @@
-package src;
+package src.Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,18 +9,24 @@ import java.net.Socket;
 
 public class Client extends JFrame implements Runnable {
     //JFrame config constant
-    private final int WIDTH = 700;
-    private final int HEIGHT = 450;
+    private final int WIDTH = 900;
+    private final int HEIGHT = 950;
 
     public Client() {
         super("Client");
         //COMPONENT Configuration
         createMenu();
+        createMapPanel();
         //FRAME Configuration
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+    }
+
+    private void createMapPanel() {
+        MapPanel mapPanel = new MapPanel();
+        add(mapPanel);
     }
 
     private void createMenu() {

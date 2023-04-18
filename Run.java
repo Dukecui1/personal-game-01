@@ -1,5 +1,5 @@
-import src.Client;
-import src.Server;
+import src.Client.Client;
+import src.Server.Server;
 
 public class Run {
     public static void main(String[] args) {

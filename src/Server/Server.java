@@ -1,4 +1,4 @@
-package src;
+package src.Server;
 
 import javax.swing.*;
 import java.awt.*;
