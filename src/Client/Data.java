@@ -5,9 +5,17 @@ public class Data {
     private final int INITIAL_MONEY = 5000;
     //distribution
     private int balance;
+    private int playerNumber;
 
     public int getBalance() {
         return balance;
+    }
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 
     public void setBalance(int balance) {
@@ -19,5 +27,6 @@ public class Data {
 
     public Data() {
         balance = -999;
+        playerNumber = -1;
     }
 }

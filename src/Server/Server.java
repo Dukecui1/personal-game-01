@@ -2,7 +2,10 @@ package src.Server;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -41,6 +44,24 @@ public class Server extends JFrame implements Runnable {
         this.add(ta);
         this.setSize(WIDTH,HEIGHT);
     }
+    class HandleAClient implements Runnable {
+        private Socket socket; // A connected socket
+        private int clientNum;
+        public HandleAClient(Socket socket, int clientNum) {
+            this.socket = socket;
+            this.clientNum = clientNum;
+            try {
+                DataOutputStream outputFromClient = new DataOutputStream(socket.getOutputStream());
+                outputFromClient.writeInt(clientNum);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public void run() {
+            //TODO calculate and communicate with clients
+
+        }
+    }
 
     @Override
     public void run() {
@@ -52,14 +73,15 @@ public class Server extends JFrame implements Runnable {
         }
         ta.append("ChatServer started at " + new Date() + '\n');
         while (true) {
+            Socket socket;
             try {
-                Socket socket = serverSocket.accept();
+                socket = serverSocket.accept();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             clientNum++;
             ta.append("Starting thread for client " + clientNum + " at " + new Date() + '\n');
-            //TODO HandleAClient
+            new Thread(new HandleAClient(socket, clientNum)).start();
         }
     }
 }

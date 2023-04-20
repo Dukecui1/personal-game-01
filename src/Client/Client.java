@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -73,7 +74,8 @@ public class Client extends JFrame implements ActionListener {
                 System.out.println("connected");
                 data.activate();
 
-                //TODO receive client number
+                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+                data.setPlayerNumber(dataInputStream.readInt());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
