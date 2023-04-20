@@ -2,34 +2,24 @@ package src.Client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MapPanel extends JPanel {
+public class MapPanel extends JPanel{
     Property[] properties;
+    private Data data;
 
-    public MapPanel() {
+    public MapPanel(Data data) {
         super();
+        this.data = data;
         //Drawing configuration
-        this.setLayout(null);
-        this.setPreferredSize(new Dimension(900, 900));
+        this.setBounds(0, 0, 900, 900);
+        //this.setPreferredSize(new Dimension(900, 900));
         this.setBackground(new Color(150, 100, 50));
         //field initialization
         properties = new Property[36];
-
         //component drawing
         drawProperties();
-        createDicePanel();
-        createStatusPanel();
-    }
-
-    private void createStatusPanel() {
-        StatusPanel statusPanel = new StatusPanel();
-        add(statusPanel);
-    }
-
-    private void createDicePanel() {
-        DicePanel dicePanel = new DicePanel();
-        add(dicePanel);
-
     }
 
     private void drawProperties() {
@@ -49,10 +39,10 @@ public class MapPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.orange);
         for (Property p : properties) {
             p.draw(g);
         }
-
     }
+
 }

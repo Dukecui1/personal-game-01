@@ -13,8 +13,11 @@ public class Data {
     public void setBalance(int balance) {
         this.balance = balance;
     }
+    public void activate() {
+        balance = INITIAL_MONEY;
+    }
 
     public Data() {
-        balance = INITIAL_MONEY;
+        balance = -999;
     }
 }
