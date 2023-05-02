@@ -52,6 +52,17 @@ public class MapPanel extends JPanel{
             }
             data.locationUpdate = false;
         }
+        if (data.otherLocationUpdate) {
+            if (data.getOtherPreviousLocation() != -1) {
+                properties[data.getOtherPreviousLocation()].playerLeft(3 - data.getPlayerNumber());
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ":other player left " + data.getOtherPreviousLocation());
+            }
+            if (data.getOtherLocation() != -1) {
+                properties[data.getOtherLocation()].playerArrived(3 - data.getPlayerNumber());
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": other player arrives at " + data.getOtherLocation());
+            }
+            data.otherLocationUpdate = false;
+        }
 
         this.setBackground(Color.orange);
         //property painting-------------------

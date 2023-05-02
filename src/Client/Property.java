@@ -40,10 +40,13 @@ public class Property {
         g.setColor(new Color(100, 100 , 100));
         g.drawRect(x, y, 90, 90);
         //draw player
-        if (!players.isEmpty()) { //TODO different players will have problem in future update
-            g.setColor(new Color(0,0,250));
-            g.fillOval(x + 30, y + 30, 30, 30);
+        for (int i : players) {
+            g.setColor(i % 2 == 0 ? Color.blue : Color.green);
+            g.fillOval(x + 15 * i, y + 15, 30, 60);
         }
+//        if (!players.isEmpty()) { //TODO different players will have problem in future update
+//
+//        }
         //draw price
         g.setColor(Color.BLACK);
         g.setFont(new Font("time new roman", Font.BOLD, 10));
