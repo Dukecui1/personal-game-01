@@ -19,10 +19,10 @@ public class MapPanel extends JPanel{
         //field initialization
         properties = new Property[36];
         //component drawing
-        drawProperties();
+        initializeProperties();
     }
 
-    private void drawProperties() {
+    private void initializeProperties() {
         for (int i = 0; i < properties.length; i++) {
             int temp = i % 9;
             if (i <= 8) {
@@ -36,13 +36,27 @@ public class MapPanel extends JPanel{
             }
         }
     }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //data update----------------------
+        //remove the player from previous location(property)
+        if (data.locationUpdate) {
+            if (data.getPreviousLocation() != -1) {
+                properties[data.getPreviousLocation()].playerLeft(data.getPlayerNumber());
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": left " + data.getPreviousLocation());
+            }
+            //add player at next location(property)
+            if (data.getLocation() != -1) {
+                properties[data.getLocation()].playerArrived(data.getPlayerNumber());
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": arrive at " + data.getLocation());
+            }
+            data.locationUpdate = false;
+        }
+
         this.setBackground(Color.orange);
+        //property painting-------------------
         for (Property p : properties) {
             p.draw(g);
         }
     }
-
 }

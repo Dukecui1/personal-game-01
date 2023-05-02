@@ -15,6 +15,7 @@ public class StatusPanel extends JPanel {
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //drawing
         g.setColor(Color.BLACK);
         g.setFont(new Font("time new roman", Font.BOLD, 20));
         g.drawString("PlayerNumber : " + data.getPlayerNumber(), 10, 30);
