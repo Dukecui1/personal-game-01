@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class Client extends JFrame implements ActionListener {
@@ -46,7 +45,7 @@ public class Client extends JFrame implements ActionListener {
         add(statusPanel);
     }
     private void createDicePanel() {
-        DicePanel dicePanel = new DicePanel();
+        DicePanel dicePanel = new DicePanel(data);
         add(dicePanel);
     }
 
@@ -69,14 +68,18 @@ public class Client extends JFrame implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            Socket socket;
             try {
-                Socket socket = new Socket("localhost", 9898);
-                System.out.println("connected");
+                socket = new Socket("localhost", 9898);
                 data.activate();
-
-                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                data.setPlayerNumber(dataInputStream.readInt());
+                //store input and output stream into data
+                data.inputStream = new ObjectInputStream(socket.getInputStream());
+                data.outputStream = new ObjectOutputStream(socket.getOutputStream());
+                data.setPlayerNumber((int)data.inputStream.readObject());
+                System.out.println("\t\tClient " + data.getPlayerNumber() + ": connected");
             } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 

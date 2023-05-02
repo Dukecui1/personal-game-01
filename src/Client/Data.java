@@ -1,4 +1,8 @@
 package src.Client;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 //players data
 public class Data {
     //constants
@@ -6,6 +10,9 @@ public class Data {
     //distribution
     private int balance;
     private int playerNumber;
+    public ObjectOutputStream outputStream;
+    public ObjectInputStream inputStream;
+
 
     public int getBalance() {
         return balance;

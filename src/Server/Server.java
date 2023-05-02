@@ -1,11 +1,10 @@
 package src.Server;
 
+import src.DataType.TransmitData;
+
 import javax.swing.*;
 import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -47,19 +46,60 @@ public class Server extends JFrame implements Runnable {
     class HandleAClient implements Runnable {
         private Socket socket; // A connected socket
         private int clientNum;
+        private ObjectOutputStream outputStream;
+        private ObjectInputStream inputStream;
         public HandleAClient(Socket socket, int clientNum) {
             this.socket = socket;
             this.clientNum = clientNum;
             try {
-                DataOutputStream outputFromClient = new DataOutputStream(socket.getOutputStream());
-                outputFromClient.writeInt(clientNum);
+                outputStream = new ObjectOutputStream(socket.getOutputStream());
+                //outputStream.reset();   AAAAA
+                Thread.sleep(100);
+                System.out.println("Server : player " + clientNum + " have been connected");
+                outputStream.writeObject(clientNum);
+                inputStream = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
         public void run() {
             //TODO calculate and communicate with clients
+            while (true) {
+                try {
+                    System.out.println("Server : waiting for messages");
+                    TransmitData td = (TransmitData) inputStream.readObject();
+                    System.out.println("Server : messages have been received from " + clientNum);
+                    ReadCommand(td);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
+        }
+
+        private void ReadCommand(TransmitData td) {
+            //TODO read command
+            int messageType = td.getMessageType();
+            System.out.println("Server : messageType " + messageType);
+            if (messageType == 1) {
+                int roll1 = (int) (Math.random() * 6) + 1;
+                int roll2 = (int) (Math.random() * 6) + 1;
+                try {
+                    Thread.sleep(100);
+                    outputStream.writeObject(TransmitData.returnDiceResult(roll1, roll2));
+                    System.out.println("Server : Dice result returned " + roll1 + " & " + roll2);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+            }
         }
     }
 

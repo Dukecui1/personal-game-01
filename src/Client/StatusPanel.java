@@ -17,7 +17,7 @@ public class StatusPanel extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
         g.setFont(new Font("time new roman", Font.BOLD, 20));
-        g.drawString("Balance : " + data.getBalance(), 10, 30);
-        g.drawString("PlayerNumber : " + data.getPlayerNumber(), 10, 50);
+        g.drawString("PlayerNumber : " + data.getPlayerNumber(), 10, 30);
+        g.drawString("Balance : " + data.getBalance(), 10, 50);
     }
 }
