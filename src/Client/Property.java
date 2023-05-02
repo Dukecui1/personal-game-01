@@ -9,11 +9,13 @@ public class Property {
     public int owner;
     public int x, y; //position of the property
     public List<Integer> players; //contains player number on this property
-    public Property(int owner, int x, int y) {
+    public int price;
+    public Property(int owner, int x, int y, int price) {
         this.owner = owner;
         this.x = x;
         this.y = y;
         this.players = new ArrayList<Integer>();
+        this.price = price;
     }
 
     public void playerArrived(int playerNumber) {
@@ -42,6 +44,10 @@ public class Property {
             g.setColor(new Color(0,0,250));
             g.fillOval(x + 30, y + 30, 30, 30);
         }
+        //draw price
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("time new roman", Font.BOLD, 10));
+        g.drawString("$" + price, x + 5, y + 75);
 
     }
 }

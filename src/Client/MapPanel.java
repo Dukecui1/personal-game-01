@@ -26,13 +26,13 @@ public class MapPanel extends JPanel{
         for (int i = 0; i < properties.length; i++) {
             int temp = i % 9;
             if (i <= 8) {
-                properties[i] = new Property(i % 5, 90 * temp, 0);
+                properties[i] = new Property(i % 5, 90 * temp, 0, 400 + 20 * i);
             } else if (i <= 17) {
-                properties[i] = new Property(i % 5, 810, 90 * temp);
+                properties[i] = new Property(i % 5, 810, 90 * temp, 300 + 20 * i);
             } else if (i <= 26) {
-                properties[i] = new Property(i % 5, 810 - 90 * temp, 810);
+                properties[i] = new Property(i % 5, 810 - 90 * temp, 810, 500 + 20 * i);
             } else {
-                properties[i] = new Property(i % 5, 0, 810 - 90 * temp);
+                properties[i] = new Property(i % 5, 0, 810 - 90 * temp, 200 + 20 * i);
             }
         }
     }

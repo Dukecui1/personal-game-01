@@ -8,6 +8,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Server extends JFrame implements Runnable {
     //Connection config constant
@@ -19,12 +21,17 @@ public class Server extends JFrame implements Runnable {
     private JTextArea ta;
     //Gameplay constant
     private int clientNum;
+    //IO list
+    //store different players outputStream for broadcast clientNum : OutputStream
+    private Map<Integer, ObjectOutputStream> playerOutputs;
 
 
     public Server() {
         super("Server");
         //Constant config
         clientNum = 0;
+        //field config
+        playerOutputs = new HashMap<>();
         //COMPONENT configuration
         createJText();
         //FRAME configuration
@@ -53,7 +60,7 @@ public class Server extends JFrame implements Runnable {
             this.clientNum = clientNum;
             try {
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
-                //outputStream.reset();   AAAAA
+                playerOutputs.put(clientNum, outputStream);
                 Thread.sleep(100);
                 System.out.println("Server : player " + clientNum + " have been connected");
                 outputStream.writeObject(clientNum);
