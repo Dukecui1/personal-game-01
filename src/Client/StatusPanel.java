@@ -21,8 +21,8 @@ public class StatusPanel extends JPanel {
         this.setPreferredSize(new Dimension(300, 360));
         this.setBackground(new Color(150, 200, 150));
         JButton purchaseButton = new JButton("purchase property");
-        purchaseButton.setPreferredSize(new Dimension(200, 30));
-        purchaseButton.setBounds(60, 300, 200, 30);
+        purchaseButton.setPreferredSize(new Dimension(250, 90));
+        purchaseButton.setBounds(20, 200, 250, 90);
         purchaseButton.addActionListener(new StatusPanel.BuyPropertyListener());
         add(purchaseButton);
     }
@@ -38,14 +38,11 @@ public class StatusPanel extends JPanel {
     class BuyPropertyListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO check ownership
-
             if (properties[data.getLocation()].owner == 0 && properties[data.getLocation()].price <= data.getBalance()) {
                 try {
                     System.out.println("\t\tClient " + data.getPlayerNumber() + ": buy property request sending");
                     Thread.sleep(100);
                     data.outputStream.writeObject(TransmitData.propertyPurchase(data.getLocation()));
-                    //TODO changes for purchase
                     System.out.println("\t\tClient " + data.getPlayerNumber() + ": buy property request sent");
                     data.setBalance(data.getBalance() - properties[data.getLocation()].price);
                     properties[data.getLocation()].owner = data.getPlayerNumber();

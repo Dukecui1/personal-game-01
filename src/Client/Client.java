@@ -93,6 +93,10 @@ public class Client extends JFrame implements Runnable, ActionListener {
                 dicePanel.setDicePics(td.dice1, td.dice2);
                 System.out.println("\t\tClient " + data.getPlayerNumber() + ": dice result received " + td.dice1 + " & " + td.dice2);
                 data.setLocation((data.getLocation() + td.dice1 + td.dice2) % 36);
+                Property p = mapPanel.properties[data.getLocation()];
+                if (p.owner != 0 && p.owner != data.getPlayerNumber()) {
+                    data.setBalance(data.getBalance() - p.price * 10);
+                }
                 System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": now arrived at " + data.getLocation());
                 break;
             case 3 :
@@ -113,6 +117,10 @@ public class Client extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+        if (data.isConnected && data.getBalance() < 0) {
+            mapPanel.loserNotice();
+
+        }
     }
 
     class OpenConnectionListener implements ActionListener {

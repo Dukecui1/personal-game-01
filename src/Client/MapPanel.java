@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 public class MapPanel extends JPanel{
     public Property[] properties;
     private Data data;
+    private boolean lost;
 
     public MapPanel(Data data) {
         super();
         this.data = data;
+        lost = false;
         //Drawing configuration
         this.setBounds(0, 0, 900, 900);
         //this.setPreferredSize(new Dimension(900, 900));
@@ -35,6 +37,9 @@ public class MapPanel extends JPanel{
                 properties[i] = new Property(0, 810 - 90 * temp, 200 + 20 * i);
             }
         }
+    }
+    public void loserNotice() {
+        lost = true;
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -68,6 +73,13 @@ public class MapPanel extends JPanel{
         //property painting-------------------
         for (Property p : properties) {
             p.draw(g);
+        }
+        //Lost detection
+        if (lost) {
+            g.setColor(Color.RED);
+            this.setBackground(Color.black);
+            g.setFont(new Font("time new roman", Font.BOLD, 100));
+            g.drawString("you lose", 300, 300);
         }
     }
 }
