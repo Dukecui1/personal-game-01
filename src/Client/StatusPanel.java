@@ -39,7 +39,8 @@ public class StatusPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO check ownership
-            if (properties[data.getLocation()].price <= data.getBalance()) {
+
+            if (properties[data.getLocation()].owner == 0 && properties[data.getLocation()].price <= data.getBalance()) {
                 try {
                     System.out.println("\t\tClient " + data.getPlayerNumber() + ": buy property request sending");
                     Thread.sleep(100);
@@ -53,6 +54,10 @@ public class StatusPanel extends JPanel {
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
+            } else if(properties[data.getLocation()].owner == data.getPlayerNumber()){
+                System.out.println("\t\tClient " + data.getPlayerNumber() + ": you cannot buy your own property");
+            } else if(properties[data.getLocation()].owner != data.getPlayerNumber()){
+                System.out.println("\t\tClient " + data.getPlayerNumber() + ": you cannot buy other's property");
             } else {
                 System.out.println("\t\tClient " + data.getPlayerNumber() + ": don't have enough money");
             }
