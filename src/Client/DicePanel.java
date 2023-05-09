@@ -45,7 +45,6 @@ public class DicePanel extends JPanel {
         rollButton.setBounds(120, 500, 80, 30);
         rollButton.addActionListener(new RollDiceListener());
         add(rollButton);
-
     }
     public void setDicePics(int d1, int d2) {
         diceLabel1.setIcon(dicePics[d1 - 1]);

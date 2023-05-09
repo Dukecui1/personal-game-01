@@ -111,8 +111,21 @@ public class Server extends JFrame implements Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
-
+            } else if(messageType == 4){ //purchase broadcast
+                try {
+                    Thread.sleep(100);
+                    System.out.println("Server : broadcast purchase for " + clientNum);
+                    for (Map.Entry<Integer, ObjectOutputStream> e : playerOutputs.entrySet()) {
+                        if (clientNum != e.getKey()) {
+                            e.getValue().writeObject(TransmitData.propertyUpdate(clientNum, td.location));
+                            System.out.println("Server : broadcast done " + " clientNum " + clientNum);
+                        }
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

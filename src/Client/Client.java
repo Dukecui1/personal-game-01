@@ -3,7 +3,6 @@ package src.Client;
 import src.DataType.TransmitData;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -26,7 +25,7 @@ public class Client extends JFrame implements Runnable, ActionListener {
         //COMPONENT Configuration
         createMenu();
         createMapPanel();
-        createStatusPanel();
+        createStatusPanel(mapPanel.properties);
         createDicePanel();
         //FRAME Configuration
         setSize(WIDTH, HEIGHT);
@@ -45,8 +44,8 @@ public class Client extends JFrame implements Runnable, ActionListener {
         mapPanel = new MapPanel(data);
         add(mapPanel);
     }
-    private void createStatusPanel() {
-        StatusPanel statusPanel = new StatusPanel(data);
+    private void createStatusPanel(Property[] properties) {
+        StatusPanel statusPanel = new StatusPanel(data, properties);
         add(statusPanel);
     }
     private void createDicePanel() {
@@ -100,6 +99,11 @@ public class Client extends JFrame implements Runnable, ActionListener {
                 System.out.println("\t\tClient " + data.getPlayerNumber() + ": dice result received from" + td.playerNum + " "+ td.dice1 + " & " + td.dice2);
                 data.setOtherLocation((data.getOtherLocation() + td.dice1 + td.dice2) % 36);
                 System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": player " + td.playerNum +" now arrived at " + data.getLocation());
+                break;
+            case 5 :
+                System.out.println("\t\tClient " + data.getPlayerNumber() + ": purchase message received from" + td.playerNum + " "+ td.location);
+                mapPanel.properties[td.location].owner = td.playerNum;
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": player " + td.playerNum +" have bought " + td.location);
                 break;
             default :
                 throw new IllegalArgumentException();

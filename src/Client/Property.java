@@ -10,8 +10,8 @@ public class Property {
     public int x, y; //position of the property
     public List<Integer> players; //contains player number on this property
     public int price;
-    public Property(int owner, int x, int y, int price) {
-        this.owner = owner;
+    public Property(int x, int y, int price) {
+        owner = 0;
         this.x = x;
         this.y = y;
         this.players = new ArrayList<Integer>();
@@ -51,6 +51,10 @@ public class Property {
         g.setColor(Color.BLACK);
         g.setFont(new Font("time new roman", Font.BOLD, 10));
         g.drawString("$" + price, x + 5, y + 75);
-
+        //draw owner
+        if (owner != 0) {
+            g.setColor(owner % 2 == 0 ? Color.blue : Color.green);
+            g.fillRect(x, y, 90, 10);
+        }
     }
 }
