@@ -1,5 +1,7 @@
 package src.Client;
 
+import src.DataType.TransmitData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -62,6 +64,18 @@ public class Client extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+        //TODO problemA
+//        if (data.isConnected) {
+//            try {
+//                System.out.println("\t\tClient: " + data.getPlayerNumber() + " waiting for messages");
+//                TransmitData td = (TransmitData) data.inputStream.readObject();
+//                System.out.println("\t\tClient: " + data.getPlayerNumber() + " messages received");
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            } catch (ClassNotFoundException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        }
     }
 
     class OpenConnectionListener implements ActionListener {
@@ -71,12 +85,12 @@ public class Client extends JFrame implements ActionListener {
             Socket socket;
             try {
                 socket = new Socket("localhost", 9898);
-                data.activate();
                 //store input and output stream into data
                 data.inputStream = new ObjectInputStream(socket.getInputStream());
                 data.outputStream = new ObjectOutputStream(socket.getOutputStream());
                 data.setPlayerNumber((int)data.inputStream.readObject());
                 System.out.println("\t\tClient " + data.getPlayerNumber() + ": connected");
+                data.activate();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             } catch (ClassNotFoundException ex) {

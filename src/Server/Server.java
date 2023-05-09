@@ -61,6 +61,7 @@ public class Server extends JFrame implements Runnable {
             try {
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 playerOutputs.put(clientNum, outputStream);
+                System.out.println("Server : output stream for client number" + clientNum + " have been added " + playerOutputs.size());
                 Thread.sleep(100);
                 System.out.println("Server : player " + clientNum + " have been connected");
                 outputStream.writeObject(clientNum);
@@ -99,6 +100,12 @@ public class Server extends JFrame implements Runnable {
                     Thread.sleep(100);
                     outputStream.writeObject(TransmitData.returnDiceResult(roll1, roll2));
                     System.out.println("Server : Dice result returned " + roll1 + " & " + roll2);
+                    for (Map.Entry<Integer, ObjectOutputStream> e : playerOutputs.entrySet()) {
+                        if (clientNum != e.getKey()) {
+                            e.getValue().writeObject(TransmitData.locationUpdate(roll1, roll2));
+                            System.out.println("Server : movement returned " + (roll1 + roll2) + " clientNum " + clientNum);
+                        }
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {

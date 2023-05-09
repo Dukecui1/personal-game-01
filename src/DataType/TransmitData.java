@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class TransmitData implements Serializable {
     /* 1 : roll dice
        2 : return dice results
+       3 : location update
     to be continued
     * */
     private int messageType;
@@ -18,6 +19,13 @@ public class TransmitData implements Serializable {
     public static TransmitData returnDiceResult(int dice1, int dice2) {
         TransmitData td = new TransmitData();
         td.setMessageType(2);
+        td.dice1 = dice1;
+        td.dice2 = dice2;
+        return td;
+    }
+    public static TransmitData locationUpdate(int dice1, int dice2) {
+        TransmitData td = new TransmitData();
+        td.setMessageType(3);
         td.dice1 = dice1;
         td.dice2 = dice2;
         return td;

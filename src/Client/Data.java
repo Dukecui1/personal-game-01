@@ -17,6 +17,7 @@ public class Data {
     private int previousLocation;
     private int otherLocation;
     private int otherPreviousLocation;
+    public boolean isConnected;
     //IO
     public ObjectOutputStream outputStream;
     public ObjectInputStream inputStream;
@@ -68,7 +69,9 @@ public class Data {
         balance = INITIAL_MONEY;
         setLocation(0);
         setOtherLocation(0);
+        isConnected = true;
     }
+
 
     public Data() {
         balance = -999;
@@ -77,5 +80,6 @@ public class Data {
         otherLocation = -1;
         locationUpdate = false;
         otherLocationUpdate = false;
+        isConnected = false;
     }
 }
