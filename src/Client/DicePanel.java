@@ -47,6 +47,10 @@ public class DicePanel extends JPanel {
         add(rollButton);
 
     }
+    public void setDicePics(int d1, int d2) {
+        diceLabel1.setIcon(dicePics[d1 - 1]);
+        diceLabel2.setIcon(dicePics[d2 - 1]);
+    }
     class RollDiceListener implements ActionListener {
 
         @Override
@@ -59,19 +63,6 @@ public class DicePanel extends JPanel {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
-                System.out.println("\t\tClient " + data.getPlayerNumber() + ": dice result reading");
-                TransmitData td = (TransmitData)data.inputStream.readObject();
-                diceLabel1.setIcon(dicePics[td.dice1 - 1]);
-                diceLabel2.setIcon(dicePics[td.dice2 - 1]);
-                System.out.println("\t\tClient " + data.getPlayerNumber() + ": dice result received " + td.dice1 + " & " + td.dice2);
-                data.setLocation((data.getLocation() + td.dice1 + td.dice2) % 36);
-                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": now arrived at " + data.getLocation());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         }

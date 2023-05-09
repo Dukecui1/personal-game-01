@@ -11,6 +11,7 @@ public class TransmitData implements Serializable {
     private int messageType;
     public int dice1;
     public int dice2;
+    public int playerNum;
     public static TransmitData rollDice() {
         TransmitData td = new TransmitData();
         td.setMessageType(1);
@@ -23,11 +24,12 @@ public class TransmitData implements Serializable {
         td.dice2 = dice2;
         return td;
     }
-    public static TransmitData locationUpdate(int dice1, int dice2) {
+    public static TransmitData locationUpdate(int playNum, int dice1, int dice2) {
         TransmitData td = new TransmitData();
         td.setMessageType(3);
         td.dice1 = dice1;
         td.dice2 = dice2;
+        td.playerNum = playNum;
         return td;
     }
     public int getMessageType() {

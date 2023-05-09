@@ -102,7 +102,7 @@ public class Server extends JFrame implements Runnable {
                     System.out.println("Server : Dice result returned " + roll1 + " & " + roll2);
                     for (Map.Entry<Integer, ObjectOutputStream> e : playerOutputs.entrySet()) {
                         if (clientNum != e.getKey()) {
-                            e.getValue().writeObject(TransmitData.locationUpdate(roll1, roll2));
+                            e.getValue().writeObject(TransmitData.locationUpdate(clientNum, roll1, roll2));
                             System.out.println("Server : movement returned " + (roll1 + roll2) + " clientNum " + clientNum);
                         }
                     }

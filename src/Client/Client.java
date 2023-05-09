@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
 
-public class Client extends JFrame implements ActionListener {
+public class Client extends JFrame implements Runnable, ActionListener {
     //JFrame config constant
     private final int WIDTH = 1200;
     private final int HEIGHT = 950;
@@ -17,6 +17,7 @@ public class Client extends JFrame implements ActionListener {
     private Data data;
     //Component
     MapPanel mapPanel;
+    DicePanel dicePanel;
 
     public Client() {
         super("Client");
@@ -36,6 +37,8 @@ public class Client extends JFrame implements ActionListener {
         //main game thread
         Timer timer = new Timer(100, this);
         timer.start();
+        Thread t = new Thread(this);
+        t.start();
     }
 
     private void createMapPanel() {
@@ -47,7 +50,7 @@ public class Client extends JFrame implements ActionListener {
         add(statusPanel);
     }
     private void createDicePanel() {
-        DicePanel dicePanel = new DicePanel(data);
+        dicePanel = new DicePanel(data);
         add(dicePanel);
     }
 
@@ -62,20 +65,50 @@ public class Client extends JFrame implements ActionListener {
     }
 
     @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (data.isConnected) break;
+        }
+        while (data.isConnected) {
+            try {
+                System.out.println("\t\tClient: " + data.getPlayerNumber() + " waiting for messages");
+                TransmitData td = (TransmitData) data.inputStream.readObject();
+                System.out.println("\t\tClient: " + data.getPlayerNumber() + " messages received");
+                readCommand(td);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    private void readCommand(TransmitData td) {
+        switch (td.getMessageType()) {
+            case 2 :
+                dicePanel.setDicePics(td.dice1, td.dice2);
+                System.out.println("\t\tClient " + data.getPlayerNumber() + ": dice result received " + td.dice1 + " & " + td.dice2);
+                data.setLocation((data.getLocation() + td.dice1 + td.dice2) % 36);
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": now arrived at " + data.getLocation());
+                break;
+            case 3 :
+                System.out.println("\t\tClient " + data.getPlayerNumber() + ": dice result received from" + td.playerNum + " "+ td.dice1 + " & " + td.dice2);
+                data.setOtherLocation((data.getOtherLocation() + td.dice1 + td.dice2) % 36);
+                System.out.println("\t\t\t Local Client " + data.getPlayerNumber() + ": player " + td.playerNum +" now arrived at " + data.getLocation());
+                break;
+            default :
+                throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
-        //TODO problemA
-//        if (data.isConnected) {
-//            try {
-//                System.out.println("\t\tClient: " + data.getPlayerNumber() + " waiting for messages");
-//                TransmitData td = (TransmitData) data.inputStream.readObject();
-//                System.out.println("\t\tClient: " + data.getPlayerNumber() + " messages received");
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            } catch (ClassNotFoundException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        }
     }
 
     class OpenConnectionListener implements ActionListener {
